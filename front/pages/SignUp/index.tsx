@@ -2,9 +2,13 @@ import React, { useCallback, useState } from "react";
 import { Form, Header, Input, Label, LinkContainer, Button, Error, Success } from './styles';
 import useInput from "@hooks/useInput";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import useSWR from "swr";
+import fetcher from "@utils/fetcher";
 
 const SignUp = () => {
+  const {data, error} = useSWR('/api/users', fetcher);
+
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, , setPassword] = useInput('');
@@ -33,8 +37,7 @@ const SignUp = () => {
       axios.post('/api/users', {
         email, nickname, password
       })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           setSignUpSuccess(true);
         })
         .catch((err) => {
@@ -44,6 +47,10 @@ const SignUp = () => {
         .finally(() => { });
     }
   }, [email, password, nickname, passwordCheck]);
+
+  if(data) {
+    return <Redirect to='/workspace/channel'/>
+  }
 
   return (
     <div id="container">

@@ -2,12 +2,12 @@ import React, { useCallback, useState } from "react";
 import { Form, Header, Input, Label, LinkContainer, Button, Error, Success } from '@pages/SignUp/styles';
 import useInput from "@hooks/useInput";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 
 const Login = () => {
-  const {data, error, mutate} = useSWR('http://localhost:3095/api/users', fetcher, {
+  const {data, error, mutate} = useSWR('/api/users', fetcher, {
     dedupingInterval: 100000,
   });
   const [logInError, setLogInError] = useState(false);
@@ -22,13 +22,21 @@ const Login = () => {
       email, password
     }, {
       withCredentials:true,
-    }).then(() => {
-      mutate();
+    }).then((res) => {
+      mutate(res.data);
     })
     .catch((err) => {
       setLogInError(err.response?.data?.statusCode === 401);
     });
   }, [email, password]);
+
+  // if(!error && !data) {
+  //   return <div>로그인 됨</div>;
+  // }
+
+  if(data) {
+    return <Redirect to='/workspace/channel'/>;
+  }
 
   return (
     <div id="container">
