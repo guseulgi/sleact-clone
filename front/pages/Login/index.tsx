@@ -23,7 +23,7 @@ const Login = () => {
     }, {
       withCredentials:true,
     }).then((res) => {
-      mutate(res.data);
+      mutate(res.data, false);
     })
     .catch((err) => {
       setLogInError(err.response?.data?.statusCode === 401);
@@ -31,7 +31,7 @@ const Login = () => {
   }, [email, password]);
 
   // if(!error && !data) {
-  //   return <div>로그인 됨</div>;
+  //   return <div>로딩중</div>;
   // }
 
   if(data) {
