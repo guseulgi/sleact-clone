@@ -1,4 +1,6 @@
-강의교안 기여(Pull Request) 환영합니다.
+# 슬랙 클론 코딩 강의 실습 레포지토리 입니다!
+
+-----
 
 백엔드 강좌 강의교안은 [여기](https://github.com/ZeroCho/sleact/blob/master/nest-typeorm/README.md) 에 있습니다. 
 
